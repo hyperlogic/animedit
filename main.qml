@@ -11,7 +11,11 @@ ApplicationWindow {
     height: 480
     title: qsTr("Hello World")
     menuBar: appMenuBar
-    signal load(string filename)
+    property var data: undefined
+
+    onDataChanged: {
+        console.log("DATA changed!")
+    }
 
     MenuBar {
         id: appMenuBar
@@ -27,7 +31,7 @@ ApplicationWindow {
 
     FileDialog {
         id: fileDialog
-        title: "Please choose a file"
+        title: "Open an animation json file"
         folder: shortcuts.home
         nameFilters: ["Json files (*.json)"]
         onAccepted: {
@@ -39,12 +43,14 @@ ApplicationWindow {
             console.log("You chose: " + cleanPath);
             var contents = FileLoader.readAll(cleanPath);
             try {
-                var obj = JSON.parse(contents);
-                console.log(obj);
+                root.data = JSON.parse(contents);
             } catch (e) {
-                ;
+                console.log("failed to parse animation json file" + e);
+                root.data = undefined;
             }
         }
-        // onRejected: { console.log("Canceled") }
+        onRejected: {
+            console.log("Canceled");
+        }
     }
 }
