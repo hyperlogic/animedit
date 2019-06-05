@@ -9,12 +9,55 @@ ApplicationWindow {
     visible: true
     width: 640
     height: 480
+    color: "#ffffff"
+    opacity: 1
     title: qsTr("Hello World")
     menuBar: appMenuBar
-    property var data: undefined
+    property var json: undefined
 
     onDataChanged: {
         console.log("DATA changed!")
+    }
+
+    Rectangle {
+        id: leftHandPane
+        color: "#ffffff"
+        anchors.fill: parent
+
+        ListModel {
+            id: fruitModel
+            ListElement {
+                name: "First Entry"
+                cost: 2.45
+            }
+            ListElement {
+                name: "Second Entry"
+                cost: 3.45
+            }
+            ListElement {
+                name: "Third Entry"
+                cost: 4.50
+            }
+        }
+
+        Component {
+            id: fruitDelegate
+            Row {
+                spacing: 10
+                Text { text: name }
+                Text { text: '$' + cost }
+            }
+        }
+
+        ListView {
+            parent: leftHandPane
+            x: 0
+            y: 0
+            width: 270
+            height: 201
+            model: fruitModel
+            delegate: fruitDelegate
+        }
     }
 
     MenuBar {
@@ -43,10 +86,10 @@ ApplicationWindow {
             console.log("You chose: " + cleanPath);
             var contents = FileLoader.readAll(cleanPath);
             try {
-                root.data = JSON.parse(contents);
+                root.json = JSON.parse(contents);
             } catch (e) {
                 console.log("failed to parse animation json file" + e);
-                root.data = undefined;
+                root.json = undefined;
             }
         }
         onRejected: {
@@ -54,3 +97,5 @@ ApplicationWindow {
         }
     }
 }
+
+
