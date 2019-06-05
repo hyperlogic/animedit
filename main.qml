@@ -31,8 +31,19 @@ ApplicationWindow {
         folder: shortcuts.home
         nameFilters: ["Json files (*.json)"]
         onAccepted: {
-            root.activated(fileDialog.fileUrls)
-            console.log("You chose: " + fileDialog.fileUrls)
+            var path = fileDialog.fileUrl.toString();
+            // remove prefixed "file:///"
+            path = path.replace(/^(file:\/{3})/,"");
+            // unescape html codes like '%23' for '#'
+            var cleanPath = decodeURIComponent(path);
+            console.log("You chose: " + cleanPath);
+            var contents = FileLoader.readAll(cleanPath);
+            try {
+                var obj = JSON.parse(contents);
+                console.log(obj);
+            } catch (e) {
+                ;
+            }
         }
         // onRejected: { console.log("Canceled") }
     }
