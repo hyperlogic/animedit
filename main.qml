@@ -24,39 +24,20 @@ ApplicationWindow {
         color: "#ffffff"
         anchors.fill: parent
 
-        ListModel {
-            id: fruitModel
-            ListElement {
-                name: "First Entry"
-                cost: 2.45
-            }
-            ListElement {
-                name: "Second Entry"
-                cost: 3.45
-            }
-            ListElement {
-                name: "Third Entry"
-                cost: 4.50
-            }
-        }
+        TreeView {
+            anchors.fill: parent
+            model: theModel
+            itemDelegate: TreeDelegate {}
 
-        Component {
-            id: fruitDelegate
-            Row {
-                spacing: 10
-                Text { text: name }
-                Text { text: '$' + cost }
+            TableViewColumn {
+                role: "title"
+                title: "Title"
             }
-        }
 
-        ListView {
-            parent: leftHandPane
-            x: 0
-            y: 0
-            width: 270
-            height: 201
-            model: fruitModel
-            delegate: fruitDelegate
+            TableViewColumn {
+                role: "summary"
+                title: "Summary"
+            }
         }
     }
 
