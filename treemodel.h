@@ -26,7 +26,7 @@ public:
     enum TreeModelRoles
     {
         TreeModelRoleName = Qt::UserRole + 1,
-        TreeModelRoleDescription
+        TreeModelRoleType
     };
 
     explicit TreeModel(const QString& data, QObject* parent = 0);
@@ -43,7 +43,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 private:
-    QVariant newCustomType(const QString& text, int position);
+    QVariant newCustomType(const QString& text);
     void setupModelData(const QStringList& lines, TreeItem* parent);
 
     TreeItem* rootItem;

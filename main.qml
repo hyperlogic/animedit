@@ -30,13 +30,17 @@ ApplicationWindow {
             itemDelegate: TreeDelegate {}
 
             TableViewColumn {
-                role: "title"
-                title: "Title"
+                role: "name"
+                title: "Name"
             }
 
             TableViewColumn {
-                role: "summary"
-                title: "Summary"
+                role: "type"
+                title: "Type"
+            }
+
+            onClicked: {
+                console.log("AJT: CLICK " + theModel.data(index, 0x0100 + 1).text);
             }
         }
     }

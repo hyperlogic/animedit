@@ -15,11 +15,11 @@
 #include <QStringList>
 
 TreeModel::TreeModel(const QString& data, QObject* parent) : QAbstractItemModel(parent) {
-    m_roleNameMapping[TreeModelRoleName] = "title";
-    m_roleNameMapping[TreeModelRoleDescription] = "summary";
+    m_roleNameMapping[TreeModelRoleName] = "name";
+    m_roleNameMapping[TreeModelRoleType] = "type";
 
     QList<QVariant> rootData;
-    rootData << "Title" << "Summary";
+    rootData << "Name" << "Type";
     rootItem = new TreeItem(rootData);
     setupModelData(data.split(QString("\n")), rootItem);
 }
@@ -41,11 +41,11 @@ QVariant TreeModel::data(const QModelIndex& index, int role) const {
         return QVariant();
     }
 
-    if (role != TreeModelRoleName && role != TreeModelRoleDescription) {
+    if (role != TreeModelRoleName && role != TreeModelRoleType) {
         return QVariant();
     }
 
-    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+    TreeItem* item = static_cast<TreeItem*>(index.internalPointer());
 
     return item->data(role - Qt::UserRole - 1);
 }
@@ -121,10 +121,9 @@ QHash<int, QByteArray> TreeModel::roleNames() const {
     return m_roleNameMapping;
 }
 
-QVariant TreeModel::newCustomType(const QString& text, int position) {
+QVariant TreeModel::newCustomType(const QString& text) {
     CustomType *t = new CustomType(this);
     t->setText(text);
-    t->setIndentation(position);
     QVariant v;
     v.setValue(t);
     return v;
@@ -153,7 +152,7 @@ void TreeModel::setupModelData(const QStringList& lines, TreeItem* parent) {
             QStringList columnStrings = lineData.split("\t", QString::SkipEmptyParts);
             QList<QVariant> columnData;
             for (int column = 0; column < columnStrings.count(); ++column) {
-                columnData << newCustomType(columnStrings[column], position);
+                columnData << newCustomType(columnStrings[column]);
             }
 
             if (position > indentations.last()) {

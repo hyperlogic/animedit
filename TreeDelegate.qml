@@ -6,6 +6,6 @@ Item {
         anchors.fill: parent
         color: styleData.textColor
         elide: styleData.elideMode
-        text: styleData.value.indentation + ": " + styleData.value.text
+        text: styleData.value.text
     }
 }
