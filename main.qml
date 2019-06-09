@@ -19,13 +19,16 @@ ApplicationWindow {
         console.log("DATA changed!")
     }
 
-    Rectangle {
-        id: leftHandPane
-        color: "#ffffff"
+    SplitView {
+        id: splitView
         anchors.fill: parent
 
         TreeView {
-            anchors.fill: parent
+            id: leftHandPane
+            width: 300
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.top: parent.top
             model: theModel
             itemDelegate: TreeDelegate {}
 
@@ -43,6 +46,47 @@ ApplicationWindow {
                 console.log("AJT: CLICK " + theModel.data(index, 0x0100 + 1).text);
             }
         }
+
+        Rectangle {
+            id: rightHandPane
+            color: "#adadad"
+            anchors.left: leftHandPane.right
+            anchors.leftMargin: 0
+            anchors.right: parent.right
+            anchors.rightMargin: 0
+            anchors.top: parent.top
+            anchors.topMargin: 0
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 0
+
+            Row {
+                id: row
+                x: 0
+                y: 0
+                height: 20
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                anchors.right: parent.right
+                anchors.rightMargin: 0
+
+                Text {
+                    id: element
+                    y: 5
+                    width: 100
+                    text: qsTr("Name:")
+                    font.pixelSize: 12
+                }
+
+                TextField {
+                    id: textField
+                    x: 100
+                    placeholderText: qsTr("Text Field")
+                }
+            }
+
+
+        }
+
     }
 
     MenuBar {
@@ -84,3 +128,20 @@ ApplicationWindow {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*##^## Designer {
+    D{i:2;anchors_width:300}D{i:6;anchors_width:50;anchors_x:0}
+}
+ ##^##*/
