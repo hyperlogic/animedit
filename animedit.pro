@@ -14,7 +14,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         customtype.cpp \
-        fileloader.cpp \
         main.cpp \
         treeitem.cpp \
         treemodel.cpp
@@ -34,6 +33,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     customtype.h \
-    fileloader.h \
     treeitem.h \
     treemodel.h

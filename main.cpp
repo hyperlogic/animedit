@@ -3,7 +3,6 @@
 #include <QQmlContext>
 #include <QDebug>
 #include <QFile>
-#include "fileloader.h"
 
 #include "treemodel.h"
 #include "customtype.h"
@@ -15,11 +14,6 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-
-
-    // expose FileLoader to qml
-    FileLoader fileLoader;
-    engine.rootContext()->setContextProperty("FileLoader", &fileLoader);
 
     // expose model
     QFile file(":/default.txt");
