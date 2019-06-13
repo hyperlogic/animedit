@@ -9,30 +9,36 @@
 //
 
 #include "treeitem.h"
+
+#include <QDebug>
+#include <QFile>
+#include <QtGlobal>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QStringList>
+
 #include "treemodel.h"
 #include "customtype.h"
 
-#include <QStringList>
-
-TreeModel::TreeModel(const QString& data, QObject* parent) : QAbstractItemModel(parent) {
-    m_roleNameMapping[TreeModelRoleName] = "name";
-    m_roleNameMapping[TreeModelRoleType] = "type";
+TreeModel::TreeModel(QObject* parent) : QAbstractItemModel(parent) {
+    _roleNameMapping[TreeModelRoleName] = "name";
+    _roleNameMapping[TreeModelRoleType] = "type";
 
     QList<QVariant> rootData;
     rootData << "Name" << "Type";
-    rootItem = new TreeItem(rootData);
-    setupModelData(data.split(QString("\n")), rootItem);
+    _rootItem = new TreeItem(rootData);
 }
 
 TreeModel::~TreeModel() {
-    delete rootItem;
+    delete _rootItem;
 }
 
 int TreeModel::columnCount(const QModelIndex& parent) const {
     if (parent.isValid()) {
         return static_cast<TreeItem*>(parent.internalPointer())->columnCount();
     } else {
-        return rootItem->columnCount();
+        return _rootItem->columnCount();
     }
 }
 
@@ -52,7 +58,7 @@ QVariant TreeModel::data(const QModelIndex& index, int role) const {
 
 Qt::ItemFlags TreeModel::flags(const QModelIndex& index) const {
     if (!index.isValid()) {
-        return 0;
+        return Qt::NoItemFlags;
     }
 
     return QAbstractItemModel::flags(index);
@@ -60,7 +66,7 @@ Qt::ItemFlags TreeModel::flags(const QModelIndex& index) const {
 
 QVariant TreeModel::headerData(int section, Qt::Orientation orientation, int role) const {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
-        return rootItem->data(section);
+        return _rootItem->data(section);
     }
 
     return QVariant();
@@ -74,7 +80,7 @@ QModelIndex TreeModel::index(int row, int column, const QModelIndex& parent) con
     TreeItem *parentItem;
 
     if (!parent.isValid()) {
-        parentItem = rootItem;
+        parentItem = _rootItem;
     } else {
         parentItem = static_cast<TreeItem*>(parent.internalPointer());
     }
@@ -95,7 +101,7 @@ QModelIndex TreeModel::parent(const QModelIndex& index) const {
     TreeItem *childItem = static_cast<TreeItem*>(index.internalPointer());
     TreeItem *parentItem = childItem->parentItem();
 
-    if (parentItem == rootItem) {
+    if (parentItem == _rootItem) {
         return QModelIndex();
     }
 
@@ -109,7 +115,7 @@ int TreeModel::rowCount(const QModelIndex& parent) const {
     }
 
     if (!parent.isValid()) {
-        parentItem = rootItem;
+        parentItem = _rootItem;
     } else {
         parentItem = static_cast<TreeItem*>(parent.internalPointer());
     }
@@ -118,7 +124,7 @@ int TreeModel::rowCount(const QModelIndex& parent) const {
 }
 
 QHash<int, QByteArray> TreeModel::roleNames() const {
-    return m_roleNameMapping;
+    return _roleNameMapping;
 }
 
 QVariant TreeModel::newCustomType(const QString& text) {
@@ -129,7 +135,31 @@ QVariant TreeModel::newCustomType(const QString& text) {
     return v;
 }
 
-void TreeModel::setupModelData(const QStringList& lines, TreeItem* parent) {
+Q_INVOKABLE void TreeModel::loadFromFile(const QString& filename) {
+    QFile file(filename);
+    if (!file.exists()) {
+        qCritical() << "loadJSONFile: failed to open file" << filename;
+    } else if (!file.open(QIODevice::ReadOnly)) {
+        qCritical() << "loadJSONFile: failed to open file" << filename;
+    } else {
+        qDebug() << "loadJSONFile: success opening file" << filename;
+        QByteArray contents = file.readAll();
+        QJsonParseError error;
+        auto doc = QJsonDocument::fromJson(contents, &error);
+        if (error.error != QJsonParseError::NoError) {
+            qCritical() << "loadJSONFile: failed to parse json, error" << error.errorString();
+        } else {
+            setupModelData(doc.object(), _rootItem);
+        }
+    }
+}
+
+void TreeModel::setupModelData(const QJsonObject& obj, TreeItem* parent) {
+
+    QList<TreeItem*> parents;
+    parents.append(parent);
+
+    /*
     QList<TreeItem*> parents;
     QList<int> indentations;
     parents << parent;
@@ -176,4 +206,8 @@ void TreeModel::setupModelData(const QStringList& lines, TreeItem* parent) {
 
         ++number;
     }
+    */
 }
+
+
+

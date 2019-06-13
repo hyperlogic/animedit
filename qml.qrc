@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>default.txt</file>
         <file>TreeDelegate.qml</file>
+        <file>DataField.qml</file>
     </qresource>
 </RCC>

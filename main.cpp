@@ -8,36 +8,6 @@
 #include "treemodel.h"
 #include "customtype.h"
 
-/*
-#include <QFile>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QFile>
-#include <QtGlobal>
-
-QJsonObject loadJSONFile(const QString& filename) {
-    QFile file(filename);
-    if (!file.exists()) {
-        qFatal("loadJSONFile: failed to open file %s", filename.constData());
-        return QJsonObject();
-    } else if (!file.open(QIODevice::ReadOnly)) {
-        qFatal("loadJSONFile: failed to open file %s", filename.constData());
-        return QJsonObject();
-    } else {
-        qDebug("loadJSONFile: success opening file %s", filename.constData());
-        QByteArray contents = file.readAll();
-        QJsonParseError error;
-        auto doc = QJsonDocument::fromJson(contents, &error);
-        if (error.error != QJsonParseError::NoError) {
-            qFatal("loadJSONFile: failed to parse json, error %s", error.errorString().constData());
-            return QJsonObject();
-        }
-        return doc.object();
-    }
-}
-*/
-
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -54,7 +24,7 @@ int main(int argc, char *argv[])
     // expose model
     QFile file(":/default.txt");
     file.open(QIODevice::ReadOnly);
-    TreeModel model(file.readAll());
+    TreeModel model;
 
     engine.rootContext()->setContextProperty("theModel", &model);
     qmlRegisterType<CustomType>("animedit.highfidelity.com", 1, 0, "CustomType");

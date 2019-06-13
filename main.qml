@@ -13,7 +13,6 @@ ApplicationWindow {
     opacity: 1
     title: qsTr("Hello World")
     menuBar: appMenuBar
-    property var json: undefined
 
     onDataChanged: {
         console.log("DATA changed!")
@@ -59,32 +58,23 @@ ApplicationWindow {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 0
 
-            Row {
-                id: row
-                x: 0
-                y: 0
-                height: 20
-                anchors.left: parent.left
-                anchors.leftMargin: 0
+            Column {
+                id: rightHandPaneColumn
+
                 anchors.right: parent.right
                 anchors.rightMargin: 0
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 0
+                anchors.top: parent.top
+                anchors.topMargin: 0
 
-                Text {
-                    id: element
-                    y: 5
-                    width: 100
-                    text: qsTr("Name:")
-                    font.pixelSize: 12
-                }
-
-                TextField {
-                    id: textField
-                    x: 100
-                    placeholderText: qsTr("Text Field")
-                }
+                DataField {}
+                DataField {}
+                DataField {}
+                DataField {}
             }
-
-
         }
 
     }
@@ -113,13 +103,7 @@ ApplicationWindow {
             // unescape html codes like '%23' for '#'
             var cleanPath = decodeURIComponent(path);
             console.log("You chose: " + cleanPath);
-            var contents = FileLoader.readAll(cleanPath);
-            try {
-                root.json = JSON.parse(contents);
-            } catch (e) {
-                console.log("failed to parse animation json file" + e);
-                root.json = undefined;
-            }
+            theModel.loadFromFile(cleanPath);
         }
         onRejected: {
             console.log("Canceled");
@@ -141,7 +125,11 @@ ApplicationWindow {
 
 
 
+
+
+
+
 /*##^## Designer {
-    D{i:2;anchors_width:300}D{i:6;anchors_width:50;anchors_x:0}
+    D{i:2;anchors_width:300}D{i:7;anchors_height:1000;anchors_width:1000}D{i:6;anchors_width:50;anchors_x:0}
 }
  ##^##*/

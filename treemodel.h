@@ -12,6 +12,7 @@
 #define hifi_TreeModel_h
 
 #include <QAbstractItemModel>
+#include <QJsonObject>
 #include <QModelIndex>
 #include <QObject>
 #include <QString>
@@ -29,7 +30,7 @@ public:
         TreeModelRoleType
     };
 
-    explicit TreeModel(const QString& data, QObject* parent = 0);
+    explicit TreeModel(QObject* parent = 0);
     ~TreeModel() override;
 
     /* QAbstractItemModel interface */
@@ -42,12 +43,14 @@ public:
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+    Q_INVOKABLE void loadFromFile(const QString& filename);
+
 private:
     QVariant newCustomType(const QString& text);
-    void setupModelData(const QStringList& lines, TreeItem* parent);
+    void setupModelData(const QJsonObject& obj, TreeItem* parent);
 
-    TreeItem* rootItem;
-    QHash<int, QByteArray> m_roleNameMapping;
+    TreeItem* _rootItem;
+    QHash<int, QByteArray> _roleNameMapping;
 };
 
 #endif
