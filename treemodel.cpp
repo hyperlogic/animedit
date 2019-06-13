@@ -136,28 +136,122 @@ QVariant TreeModel::newCustomType(const QString& text) {
 }
 
 Q_INVOKABLE void TreeModel::loadFromFile(const QString& filename) {
+
+    beginResetModel();
+
     QFile file(filename);
     if (!file.exists()) {
-        qCritical() << "loadJSONFile: failed to open file" << filename;
+        qCritical() << "TreeModel::loadFromFile, failed to open file" << filename;
     } else if (!file.open(QIODevice::ReadOnly)) {
-        qCritical() << "loadJSONFile: failed to open file" << filename;
+        qCritical() << "TreeModel::loadFromFile, failed to open file" << filename;
     } else {
-        qDebug() << "loadJSONFile: success opening file" << filename;
+        qDebug() << "TreeModel::loadFromFile, success opening file" << filename;
         QByteArray contents = file.readAll();
         QJsonParseError error;
         auto doc = QJsonDocument::fromJson(contents, &error);
         if (error.error != QJsonParseError::NoError) {
-            qCritical() << "loadJSONFile: failed to parse json, error" << error.errorString();
+            qCritical() << "TreeModel::loadFromFile, failed to parse json, error" << error.errorString();
         } else {
-            setupModelData(doc.object(), _rootItem);
+            QJsonObject obj = doc.object();
+
+            // version
+            QJsonValue versionVal = obj.value("version");
+            if (!versionVal.isString()) {
+                qCritical() << "TreeModel::loadFromFile, bad string \"version\"";
+                return;
+            }
+            QString version = versionVal.toString();
+
+            // check version
+            if (version != "1.0" && version != "1.1") {
+                qCritical() << "TreeModel::loadFromFile, bad version number" << version << "expected \"1.0\" or \"1.1\"";
+                return;
+            }
+
+            // root
+            QJsonValue rootVal = obj.value("root");
+            if (!rootVal.isObject()) {
+                qCritical() << "TreeModel::loadFromFile, bad object \"root\"";
+                return;
+            }
+
+            QList<QVariant> columnData;
+            columnData << newCustomType(QString("root"));
+            columnData << newCustomType(QString("root"));
+
+            // create root item
+            _rootItem = new TreeItem(columnData);
+            _rootItem->appendChild(loadNode(rootVal.toObject()));
         }
     }
+
+    endResetModel();
 }
 
-void TreeModel::setupModelData(const QJsonObject& obj, TreeItem* parent) {
+TreeItem* TreeModel::loadNode(const QJsonObject& jsonObj) {
 
-    QList<TreeItem*> parents;
-    parents.append(parent);
+    // id
+    auto idVal = jsonObj.value("id");
+    if (!idVal.isString()) {
+        qCritical() << "loadNode, bad string \"id\"";
+        return nullptr;
+    }
+    QString id = idVal.toString();
+
+    // type
+    auto typeVal = jsonObj.value("type");
+    if (!typeVal.isString()) {
+        qCritical() << "loadNode, bad object \"type\", id =" << id;
+        return nullptr;
+    }
+    QString typeStr = typeVal.toString();
+
+    // data
+    auto dataValue = jsonObj.value("data");
+    if (!dataValue.isObject()) {
+        qCritical() << "AnimNodeLoader, bad string \"data\", id =" << id;
+        return nullptr;
+    }
+    auto dataObj = dataValue.toObject();
+
+    // output joints
+    std::vector<QString> outputJoints;
+    auto outputJoints_VAL = dataObj.value("outputJoints");
+    if (outputJoints_VAL.isArray()) {
+        QJsonArray outputJoints_ARRAY = outputJoints_VAL.toArray();
+        for (int i = 0; i < outputJoints_ARRAY.size(); i++) {
+            outputJoints.push_back(outputJoints_ARRAY.at(i).toString());
+        }
+    }
+
+    QList<QVariant> columnData;
+    columnData << newCustomType(id);
+    columnData << newCustomType(typeStr);
+
+    // create node
+    TreeItem* node = new TreeItem(columnData);
+
+    // children
+    auto childrenValue = jsonObj.value("children");
+    if (!childrenValue.isArray()) {
+        qCritical() << "AnimNodeLoader, bad array \"children\", id =" << id;
+        return nullptr;
+    }
+    auto childrenArray = childrenValue.toArray();
+    for (const auto& childValue : childrenArray) {
+        if (!childValue.isObject()) {
+            qCritical() << "AnimNodeLoader, bad object in \"children\", id =" << id;
+            return nullptr;
+        }
+        TreeItem* child = loadNode(childValue.toObject());
+        if (child) {
+            node->appendChild(child);
+        } else {
+            return nullptr;
+        }
+    }
+
+    return node;
 
     /*
     QList<TreeItem*> parents;

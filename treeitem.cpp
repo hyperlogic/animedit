@@ -11,17 +11,17 @@
 #include "treeitem.h"
 #include <QStringList>
 
-TreeItem::TreeItem(const QList<QVariant>& data, TreeItem* parent) {
-    m_parentItem = parent;
+TreeItem::TreeItem(const QList<QVariant>& data) {
+    m_parentItem = nullptr;
     m_itemData = data;
 }
 
-TreeItem::~TreeItem()
-{
+TreeItem::~TreeItem() {
     qDeleteAll(m_childItems);
 }
 
 void TreeItem::appendChild(TreeItem *item) {
+    item->m_parentItem = this;
     m_childItems.append(item);
 }
 

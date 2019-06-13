@@ -17,7 +17,7 @@
 class TreeItem
 {
 public:
-    explicit TreeItem(const QList<QVariant>& data, TreeItem* parentItem = 0);
+    explicit TreeItem(const QList<QVariant>& data);
     ~TreeItem();
 
     void appendChild(TreeItem* child);

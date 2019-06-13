@@ -47,7 +47,7 @@ public:
 
 private:
     QVariant newCustomType(const QString& text);
-    void setupModelData(const QJsonObject& obj, TreeItem* parent);
+    TreeItem* loadNode(const QJsonObject& jsonObj);
 
     TreeItem* _rootItem;
     QHash<int, QByteArray> _roleNameMapping;
