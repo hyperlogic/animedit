@@ -45,9 +45,12 @@ ApplicationWindow {
                 var ROLE_NAME = 0x0101;
                 var ROLE_TYPE = 0x0102;
                 var ROLE_DATA = 0x0103;
+
                 console.log("AJT: NAME = " + theModel.data(index, ROLE_NAME));
                 console.log("AJT: TYPE = " + theModel.data(index, ROLE_TYPE));
                 console.log("AJT: DATA = " + JSON.stringify(theModel.data(index, ROLE_DATA)));
+
+                idField.theValue = theModel.data(index, ROLE_NAME);
             }
         }
 
@@ -75,10 +78,9 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.topMargin: 0
 
-                DataField {}
-                DataField {}
-                DataField {}
-                DataField {}
+                IdField {
+                    id: idField
+                }
             }
         }
 

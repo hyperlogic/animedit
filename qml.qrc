@@ -1,8 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>default.txt</file>
         <file>TreeDelegate.qml</file>
-        <file>DataField.qml</file>
+        <file>IdField.qml</file>
     </qresource>
 </RCC>
