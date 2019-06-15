@@ -5,7 +5,6 @@
 #include <QFile>
 
 #include "treemodel.h"
-#include "customtype.h"
 
 int main(int argc, char *argv[])
 {
@@ -21,7 +20,6 @@ int main(int argc, char *argv[])
     TreeModel model;
 
     engine.rootContext()->setContextProperty("theModel", &model);
-    qmlRegisterType<CustomType>("animedit.highfidelity.com", 1, 0, "CustomType");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app, [url](QObject *obj, const QUrl &objUrl) {

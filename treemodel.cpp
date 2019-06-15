@@ -19,7 +19,6 @@
 #include <QStringList>
 
 #include "treemodel.h"
-#include "customtype.h"
 
 TreeModel::TreeModel(QObject* parent) : QAbstractItemModel(parent) {
     _roleNameMapping[TreeModelRoleName] = "name";
@@ -127,14 +126,6 @@ QHash<int, QByteArray> TreeModel::roleNames() const {
     return _roleNameMapping;
 }
 
-QVariant TreeModel::newCustomType(const QString& text) {
-    CustomType *t = new CustomType(this);
-    t->setText(text);
-    QVariant v;
-    v.setValue(t);
-    return v;
-}
-
 Q_INVOKABLE void TreeModel::loadFromFile(const QString& filename) {
 
     beginResetModel();
@@ -176,8 +167,8 @@ Q_INVOKABLE void TreeModel::loadFromFile(const QString& filename) {
             }
 
             QList<QVariant> columnData;
-            columnData << newCustomType(QString("root"));
-            columnData << newCustomType(QString("root"));
+            columnData << QString("root");
+            columnData << QString("root");
 
             // create root item
             _rootItem = new TreeItem(columnData);
@@ -225,8 +216,8 @@ TreeItem* TreeModel::loadNode(const QJsonObject& jsonObj) {
     }
 
     QList<QVariant> columnData;
-    columnData << newCustomType(id);
-    columnData << newCustomType(typeStr);
+    columnData << id;
+    columnData << typeStr;
 
     // create node
     TreeItem* node = new TreeItem(columnData);
@@ -252,55 +243,6 @@ TreeItem* TreeModel::loadNode(const QJsonObject& jsonObj) {
     }
 
     return node;
-
-    /*
-    QList<TreeItem*> parents;
-    QList<int> indentations;
-    parents << parent;
-    indentations << 0;
-
-    int number = 0;
-
-    while (number < lines.count()) {
-        int position = 0;
-        while (position < lines[number].length()) {
-            if (lines[number].at(position) != ' ')
-                break;
-            position++;
-        }
-
-        QString lineData = lines[number].mid(position).trimmed();
-
-        if (!lineData.isEmpty()) {
-            // Read the column data from the rest of the line.
-            QStringList columnStrings = lineData.split("\t", QString::SkipEmptyParts);
-            QList<QVariant> columnData;
-            for (int column = 0; column < columnStrings.count(); ++column) {
-                columnData << newCustomType(columnStrings[column]);
-            }
-
-            if (position > indentations.last()) {
-                // The last child of the current parent is now the new parent
-                // unless the current parent has no children.
-
-                if (parents.last()->childCount() > 0) {
-                    parents << parents.last()->child(parents.last()->childCount() - 1);
-                    indentations << position;
-                }
-            } else {
-                while (position < indentations.last() && parents.count() > 0) {
-                    parents.pop_back();
-                    indentations.pop_back();
-                }
-            }
-
-            // Append a new item to the current parent's list of children.
-            parents.last()->appendChild(new TreeItem(columnData, parents.last()));
-        }
-
-        ++number;
-    }
-    */
 }
 
 

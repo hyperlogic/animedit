@@ -46,7 +46,6 @@ public:
     Q_INVOKABLE void loadFromFile(const QString& filename);
 
 private:
-    QVariant newCustomType(const QString& text);
     TreeItem* loadNode(const QJsonObject& jsonObj);
 
     TreeItem* _rootItem;
