@@ -27,7 +27,8 @@ public:
     enum TreeModelRoles
     {
         TreeModelRoleName = Qt::UserRole + 1,
-        TreeModelRoleType
+        TreeModelRoleType,
+        TreeModelRoleData
     };
 
     explicit TreeModel(QObject* parent = 0);

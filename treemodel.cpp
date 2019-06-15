@@ -23,9 +23,10 @@
 TreeModel::TreeModel(QObject* parent) : QAbstractItemModel(parent) {
     _roleNameMapping[TreeModelRoleName] = "name";
     _roleNameMapping[TreeModelRoleType] = "type";
+    _roleNameMapping[TreeModelRoleData] = "data";
 
     QList<QVariant> rootData;
-    rootData << "Name" << "Type";
+    rootData << "root" << "root" << "root";
     _rootItem = new TreeItem(rootData);
 }
 
@@ -46,7 +47,7 @@ QVariant TreeModel::data(const QModelIndex& index, int role) const {
         return QVariant();
     }
 
-    if (role != TreeModelRoleName && role != TreeModelRoleType) {
+    if (role != TreeModelRoleName && role != TreeModelRoleType && role != TreeModelRoleData) {
         return QVariant();
     }
 
@@ -169,6 +170,7 @@ Q_INVOKABLE void TreeModel::loadFromFile(const QString& filename) {
             QList<QVariant> columnData;
             columnData << QString("root");
             columnData << QString("root");
+            columnData << QString("root");
 
             // create root item
             _rootItem = new TreeItem(columnData);
@@ -218,6 +220,7 @@ TreeItem* TreeModel::loadNode(const QJsonObject& jsonObj) {
     QList<QVariant> columnData;
     columnData << id;
     columnData << typeStr;
+    columnData << dataValue.toVariant();
 
     // create node
     TreeItem* node = new TreeItem(columnData);

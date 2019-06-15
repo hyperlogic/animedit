@@ -42,7 +42,12 @@ ApplicationWindow {
             }
 
             onClicked: {
-                console.log("AJT: CLICK " + theModel.data(index, 0x0100 + 1).text);
+                var ROLE_NAME = 0x0101;
+                var ROLE_TYPE = 0x0102;
+                var ROLE_DATA = 0x0103;
+                console.log("AJT: NAME = " + theModel.data(index, ROLE_NAME));
+                console.log("AJT: TYPE = " + theModel.data(index, ROLE_TYPE));
+                console.log("AJT: DATA = " + JSON.stringify(theModel.data(index, ROLE_DATA)));
             }
         }
 
