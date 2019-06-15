@@ -26,7 +26,7 @@ TreeModel::TreeModel(QObject* parent) : QAbstractItemModel(parent) {
     _roleNameMapping[TreeModelRoleData] = "data";
 
     QList<QVariant> rootData;
-    rootData << "root" << "root" << "root";
+    rootData << "Name" << "Type" << "Data";
     _rootItem = new TreeItem(rootData);
 }
 
@@ -34,26 +34,8 @@ TreeModel::~TreeModel() {
     delete _rootItem;
 }
 
-int TreeModel::columnCount(const QModelIndex& parent) const {
-    if (parent.isValid()) {
-        return static_cast<TreeItem*>(parent.internalPointer())->columnCount();
-    } else {
-        return _rootItem->columnCount();
-    }
-}
-
-QVariant TreeModel::data(const QModelIndex& index, int role) const {
-    if (!index.isValid()) {
-        return QVariant();
-    }
-
-    if (role != TreeModelRoleName && role != TreeModelRoleType && role != TreeModelRoleData) {
-        return QVariant();
-    }
-
-    TreeItem* item = static_cast<TreeItem*>(index.internalPointer());
-
-    return item->data(role - Qt::UserRole - 1);
+QHash<int, QByteArray> TreeModel::roleNames() const {
+    return _roleNameMapping;
 }
 
 Qt::ItemFlags TreeModel::flags(const QModelIndex& index) const {
@@ -62,6 +44,11 @@ Qt::ItemFlags TreeModel::flags(const QModelIndex& index) const {
     }
 
     return QAbstractItemModel::flags(index);
+}
+
+QVariant TreeModel::data(const QModelIndex& index, int role) const {
+    TreeItem* item = getItem(index);
+    return item->data(role - Qt::UserRole - 1);
 }
 
 QVariant TreeModel::headerData(int section, Qt::Orientation orientation, int role) const {
@@ -109,22 +96,37 @@ QModelIndex TreeModel::parent(const QModelIndex& index) const {
 }
 
 int TreeModel::rowCount(const QModelIndex& parent) const {
-    TreeItem *parentItem;
-    if (parent.column() > 0) {
-        return 0;
-    }
-
-    if (!parent.isValid()) {
-        parentItem = _rootItem;
-    } else {
-        parentItem = static_cast<TreeItem*>(parent.internalPointer());
-    }
-
+    TreeItem* parentItem = getItem(parent);
     return parentItem->childCount();
 }
 
-QHash<int, QByteArray> TreeModel::roleNames() const {
-    return _roleNameMapping;
+int TreeModel::columnCount(const QModelIndex& parent) const {
+    return _rootItem->columnCount();
+}
+
+bool TreeModel::setData(const QModelIndex& index, const QVariant& value, int role) {
+    TreeItem* item = getItem(index);
+    return item->setData(role - Qt::UserRole - 1, value);
+}
+
+bool TreeModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant& value, int role) {
+    return false;
+}
+
+bool TreeModel::insertColumns(int position, int columns, const QModelIndex& parent) {
+    return false;
+}
+
+bool TreeModel::removeColumns(int position, int columns, const QModelIndex& parent) {
+    return false;
+}
+
+bool TreeModel::insertRows(int position, int rows, const QModelIndex& parent) {
+    return false;
+}
+
+bool TreeModel::removeRows(int position, int rows, const QModelIndex& parent) {
+    return false;
 }
 
 Q_INVOKABLE void TreeModel::loadFromFile(const QString& filename) {
@@ -248,5 +250,12 @@ TreeItem* TreeModel::loadNode(const QJsonObject& jsonObj) {
     return node;
 }
 
-
-
+TreeItem* TreeModel::getItem(const QModelIndex& index) const {
+    if (index.isValid()) {
+        TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+        if (item) {
+            return item;
+        }
+    }
+    return _rootItem;
+}

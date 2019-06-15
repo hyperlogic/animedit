@@ -34,20 +34,32 @@ public:
     explicit TreeModel(QObject* parent = 0);
     ~TreeModel() override;
 
-    /* QAbstractItemModel interface */
-    QVariant data(const QModelIndex& index, int role) const override;
+    // QAbstractItemModel interface
+    QHash<int, QByteArray> roleNames() const override;
     Qt::ItemFlags flags(const QModelIndex& index) const override;
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+
+    // read methods
+    QVariant data(const QModelIndex& index, int role) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = TreeModelRoleName) const override;
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
     QModelIndex parent(const QModelIndex& index) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     int columnCount(const QModelIndex& parent = QModelIndex()) const override;
-    QHash<int, QByteArray> roleNames() const override;
 
+    // write methods
+    bool setData(const QModelIndex& index, const QVariant& value, int role = TreeModelRoleName) override;
+    bool setHeaderData(int section, Qt::Orientation orientation, const QVariant& value, int role = TreeModelRoleName) override;
+    bool insertColumns(int position, int columns, const QModelIndex& parent = QModelIndex()) override;
+    bool removeColumns(int position, int columns, const QModelIndex& parent = QModelIndex()) override;
+    bool insertRows(int position, int rows, const QModelIndex& parent = QModelIndex()) override;
+    bool removeRows(int position, int rows, const QModelIndex& parent = QModelIndex()) override;
+
+    // invokalbe from qml
     Q_INVOKABLE void loadFromFile(const QString& filename);
 
 private:
     TreeItem* loadNode(const QJsonObject& jsonObj);
+    TreeItem* getItem(const QModelIndex& index) const;
 
     TreeItem* _rootItem;
     QHash<int, QByteArray> _roleNameMapping;
