@@ -4,5 +4,6 @@
         <file>TreeDelegate.qml</file>
         <file>IdField.qml</file>
         <file>TypeField.qml</file>
+        <file>ClipData.qml</file>
     </qresource>
 </RCC>

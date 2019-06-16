@@ -42,16 +42,7 @@ ApplicationWindow {
             }
 
             onClicked: {
-                var ROLE_NAME = 0x0101;
-                var ROLE_TYPE = 0x0102;
-                var ROLE_DATA = 0x0103;
-
-                console.log("AJT: NAME = " + theModel.data(index, ROLE_NAME));
-                console.log("AJT: TYPE = " + theModel.data(index, ROLE_TYPE));
-                console.log("AJT: DATA = " + JSON.stringify(theModel.data(index, ROLE_DATA)));
-
-                idField.theValue = theModel.data(index, ROLE_NAME);
-                typeField.theValue = theModel.data(index, ROLE_TYPE);
+                rightHandPane.setIndex(index);
             }
         }
 
@@ -66,6 +57,36 @@ ApplicationWindow {
             anchors.topMargin: 0
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 0
+
+            function setIndex(index) {
+                var ROLE_NAME = 0x0101;
+                var ROLE_TYPE = 0x0102;
+                var ROLE_DATA = 0x0103;
+
+                var idValue = theModel.data(index, ROLE_NAME);
+                var typeValue = theModel.data(index, ROLE_TYPE);
+                var dataValue = theModel.data(index, ROLE_DATA);
+
+                idField.theValue = idValue;
+                typeField.theValue = typeValue;
+
+                // delete previous custom data obj, if present
+                var orig = rightHandPaneColumn.children[2];
+                if (orig) {
+                    orig.destroy();
+                }
+
+                if (typeValue === "clip") {
+                    var component = Qt.createComponent("ClipData.qml", Component.PreferSynchronous);
+                    if (component.status === Component.Ready) {
+                        component.createObject(rightHandPaneColumn);
+                    } else if (component.status === Component.Error) {
+                        console.log("ERROR: " + component.errorString());
+                    } else if (component.status === Component.Loading) {
+                        console.log("ERROR: NOT READY");
+                    }
+                }
+            }
 
             Column {
                 id: rightHandPaneColumn
@@ -89,7 +110,6 @@ ApplicationWindow {
                 }
             }
         }
-
     }
 
     MenuBar {
