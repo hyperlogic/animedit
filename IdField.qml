@@ -27,6 +27,7 @@ Row {
     TextField {
         id: textField
         x: 100
+        width: 200
         text: theValue
     }
 }

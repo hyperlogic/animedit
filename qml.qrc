@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>TreeDelegate.qml</file>
         <file>IdField.qml</file>
+        <file>TypeField.qml</file>
     </qresource>
 </RCC>

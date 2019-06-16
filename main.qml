@@ -51,6 +51,7 @@ ApplicationWindow {
                 console.log("AJT: DATA = " + JSON.stringify(theModel.data(index, ROLE_DATA)));
 
                 idField.theValue = theModel.data(index, ROLE_NAME);
+                typeField.theValue = theModel.data(index, ROLE_TYPE);
             }
         }
 
@@ -78,8 +79,13 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.topMargin: 0
 
+                spacing: 6
+
                 IdField {
                     id: idField
+                }
+                TypeField {
+                    id: typeField
                 }
             }
         }
