@@ -58,6 +58,18 @@ ApplicationWindow {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 0
 
+            function createCustomData(qml, index) {
+                var component = Qt.createComponent(qml, Component.PreferSynchronous);
+                if (component.status === Component.Ready) {
+                    var obj = component.createObject(rightHandPaneColumn);
+                    obj.setIndex(index);
+                } else if (component.status === Component.Error) {
+                    console.log("ERROR: " + component.errorString());
+                } else if (component.status === Component.Loading) {
+                    console.log("ERROR: NOT READY");
+                }
+            }
+
             function setIndex(index) {
                 var ROLE_NAME = 0x0101;
                 var ROLE_TYPE = 0x0102;
@@ -65,7 +77,6 @@ ApplicationWindow {
 
                 var idValue = theModel.data(index, ROLE_NAME);
                 var typeValue = theModel.data(index, ROLE_TYPE);
-                var dataValue = theModel.data(index, ROLE_DATA);
 
                 idField.theValue = idValue;
                 typeField.theValue = typeValue;
@@ -77,14 +88,7 @@ ApplicationWindow {
                 }
 
                 if (typeValue === "clip") {
-                    var component = Qt.createComponent("ClipData.qml", Component.PreferSynchronous);
-                    if (component.status === Component.Ready) {
-                        component.createObject(rightHandPaneColumn);
-                    } else if (component.status === Component.Error) {
-                        console.log("ERROR: " + component.errorString());
-                    } else if (component.status === Component.Loading) {
-                        console.log("ERROR: NOT READY");
-                    }
+                    createCustomData("ClipData.qml", index);
                 }
             }
 
@@ -94,7 +98,7 @@ ApplicationWindow {
                 anchors.right: parent.right
                 anchors.rightMargin: 0
                 anchors.left: parent.left
-                anchors.leftMargin: 0
+                anchors.leftMargin: 10
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 0
                 anchors.top: parent.top
@@ -105,6 +109,7 @@ ApplicationWindow {
                 IdField {
                     id: idField
                 }
+
                 TypeField {
                     id: typeField
                 }
@@ -143,6 +148,12 @@ ApplicationWindow {
         }
     }
 }
+
+
+
+
+
+
 
 
 

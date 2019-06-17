@@ -9,6 +9,7 @@
 //
 
 #include "treeitem.h"
+#include <QDebug>
 #include <QStringList>
 
 TreeItem::TreeItem(const QList<QVariant>& data) {

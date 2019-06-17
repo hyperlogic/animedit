@@ -5,5 +5,8 @@
         <file>IdField.qml</file>
         <file>TypeField.qml</file>
         <file>ClipData.qml</file>
+        <file>NumberField.qml</file>
+        <file>StringField.qml</file>
+        <file>BooleanField.qml</file>
     </qresource>
 </RCC>
