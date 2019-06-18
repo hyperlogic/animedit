@@ -23,67 +23,38 @@ Column {
 
     signal fieldChanged(string key, var newValue)
 
+    // called by each field when its value is changed.
     function fieldChangedMethod(key, newValue) {
         var ROLE_DATA = 0x0103;
-
-        console.log("AJT: theModel.data()");
-
         var dataValue = theModel.data(modelIndex, ROLE_DATA);
-
-        console.log("AJT: mutate");
-
         dataValue[key] = newValue;
 
-        console.log("AJT: thieModel.setData()");
-
+        // copy the new value into the model.
         theModel.setData(modelIndex, dataValue, ROLE_DATA);
-
-        console.log("AJT: field changed, key = " + key + ", value = " + newValue);
     }
 
+    // called when a new model is loaded
     function setIndex(index) {
         modelIndex = index;
 
         var ROLE_DATA = 0x0103;
         var dataValue = theModel.data(modelIndex, ROLE_DATA);
 
-        // copy dataValue into each field.
-        if (dataValue.url) {
-            urlField.value = dataValue.url;
-        }
-        if (dataValue.startFrame) {
-            startFrameField.value = dataValue.startFrame;
-        }
-        if (dataValue.endFrame) {
-            endFrameField.value = dataValue.endFrame;
-        }
-        if (dataValue.timeScale) {
-            timeScaleField.value = dataValue.timeScale;
-        }
-        if (dataValue.loopFlag) {
-            loopFlagField.value = dataValue.loopFlag;
-        }
-        if (dataValue.mirrorFlag) {
-            mirrorFlagField.value = dataValue.mirrorFlag;
-        }
-        if (dataValue.startFrameVar) {
-            startFrameVarField.value = dataValue.startFrameVar;
-        }
-        if (dataValue.endFrameVar) {
-            endFrameVarField.value = dataValue.endFrameVar;
-        }
-        if (dataValue.timeScaleVar) {
-            timeScaleVarField.value = dataValue.timeScaleVar;
-        }
-        if (dataValue.loopFlagVar) {
-            loopFlagVarField.value = dataValue.loopFlagVar;
-        }
-        if (dataValue.mirrorFlagVar) {
-            mirrorFlagVarField.value = dataValue.mirrorFlagVar;
+        var fields = ["url", "startFrame", "endFrame", "timeScale", "loopFlag", "mirrorFlag",
+                      "startFrameVar", "endFrameVar", "timeScaleVar", "loopFlagVar", "mirrorFlagVar"];
+
+        // copy data from theModel into each field.
+        var l = fields.length;
+        for (var i = 0; i < l; i++) {
+            var val = dataValue[fields[i]];
+            if (val) {
+                clipDataColumn.children[i].value = val;
+            }
         }
     }
 
     Component.onCompleted: {
+        // this signal is fired from each data field when values are changed.
         clipDataColumn.fieldChanged.connect(fieldChangedMethod)
     }
 
