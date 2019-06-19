@@ -11,5 +11,6 @@
         <file>BlendLinear.qml</file>
         <file>BlendLinearMove.qml</file>
         <file>NumberArrayField.qml</file>
+        <file>Overlay.qml</file>
     </qresource>
 </RCC>

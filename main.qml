@@ -93,6 +93,8 @@ ApplicationWindow {
                     createCustomData("BlendLinear.qml", index);
                 } else if (typeValue === "blendLinearMove") {
                     createCustomData("BlendLinearMove.qml", index);
+                } else if (typeValue === "overlay") {
+                    createCustomData("Overlay.qml", index);
                 }
             }
 

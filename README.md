@@ -7,7 +7,7 @@ TODO: rightHandPane editors for the following node types:
 * DONE: clip
 * DONE: blendLinear
 * DONE: blendLinearMove - (float[] field)
-* overlay
+* DONE: overlay
 * stateMachine - HARD (list of states with sub-list of transitions)
 * randomStateMachine - HARD (list of states)
 * manipulator
