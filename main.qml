@@ -7,16 +7,12 @@ import QtQuick.Dialogs 1.0
 ApplicationWindow {
     id: root
     visible: true
-    width: 640
+    width: 1024
     height: 480
     color: "#ffffff"
     opacity: 1
-    title: qsTr("Hello World")
+    title: qsTr("AnimEdit")
     menuBar: appMenuBar
-
-    onDataChanged: {
-        console.log("DATA changed!")
-    }
 
     SplitView {
         id: splitView
@@ -24,7 +20,7 @@ ApplicationWindow {
 
         TreeView {
             id: leftHandPane
-            width: 300
+            width: 700
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.top: parent.top
@@ -34,6 +30,7 @@ ApplicationWindow {
             TableViewColumn {
                 role: "name"
                 title: "Name"
+                width: 500
             }
 
             TableViewColumn {
