@@ -8,5 +8,8 @@
         <file>NumberField.qml</file>
         <file>StringField.qml</file>
         <file>BooleanField.qml</file>
+        <file>BlendLinear.qml</file>
+        <file>BlendLinearMove.qml</file>
+        <file>NumberArrayField.qml</file>
     </qresource>
 </RCC>

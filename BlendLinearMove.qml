@@ -32,8 +32,7 @@ Column {
         var ROLE_DATA = 0x0103;
         var dataValue = theModel.data(modelIndex, ROLE_DATA);
 
-        var fields = ["url", "startFrame", "endFrame", "timeScale", "loopFlag", "mirrorFlag",
-                      "startFrameVar", "endFrameVar", "timeScaleVar", "loopFlagVar", "mirrorFlagVar"];
+        var fields = ["alpha", "desiredSpeed", "characteristicSpeeds", "alphaVar", "desiredSpeedVar"];
 
         // copy data from theModel into each field.
         var l = fields.length;
@@ -50,74 +49,34 @@ Column {
         column.fieldChanged.connect(fieldChangedMethod)
     }
 
-    StringField {
-        id: urlField
-        key: "url"
-        value: "qrc:///avatar/animations/idle.fbx"
-    }
-
     NumberField {
-        id: startFrameField
-        key: "startFrame"
+        id: alphaField
+        key: "alpha"
         value: 0.0
     }
 
     NumberField {
-        id: endFrameField
-        key: "endFrame"
+        id: desiredSpeedField
+        key: "desiredSpeed"
         value: 0.0
     }
 
-    NumberField {
-        id: timeScaleField
-        key: "timeScale"
-        value: 0.0
-    }
-
-    BooleanField {
-        id: loopFlagField
-        key: "loopFlag"
-        value: false
-    }
-
-    BooleanField {
-        id: mirrorFlagField
-        key: "mirrorFlag"
-        value: false
-        optional: true
+    NumberArrayField {
+        id: characteristicSpeedsField
+        key: "characteristicSpeeds"
+        value: []
     }
 
     StringField {
-        id: startFrameVarField
-        key: "startFrameVar"
+        id: alphaVarField
+        key: "alphaVar"
         value: ""
         optional: true
     }
 
     StringField {
-        id: endFrameVarField
-        key: "endFrameVar"
-        value: ""
-        optional: true
-    }
-
-    StringField {
-        id: timeScaleVarField
-        key: "timeScaleVar"
-        value: ""
-        optional: true
-    }
-
-    StringField {
-        id: loopFlagVarField
-        key: "loopFlagVar"
-        value: ""
-        optional: true
-    }
-
-    StringField {
-        id: mirrorFlagVarField
-        key: "mirrorFlagVar"
+        id: desiredSpeedVarField
+        key: "desiredSpeedVar"
         value: ""
         optional: true
     }
