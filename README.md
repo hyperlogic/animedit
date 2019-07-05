@@ -8,19 +8,21 @@ TODO: rightHandPane editors for the following node types:
 * DONE: blendLinear
 * DONE: blendLinearMove - (float[] field)
 * DONE: overlay
-* stateMachine - HARD (list of states with sub-list of transitions)
-* randomStateMachine - HARD (list of states)
-* manipulator
-* inverseKinematics - HARD (list of targets with sub float[] fields)
-* defaultPose
+* stateMachine - (raw json blob edit field) for states and transitions.
+* randomStateMachine - (raw json blob edit field) for states
+* manipulator - (list of joints)
+* inverseKinematics - (raw json blob edit field)
+* DONE: defaultPose
 * twoBoneIK - (vec3 field)
 * splineIK - (float[] field)
 * poleVectorConstraint - (float[] field)
 
-TODO: output poses support.
-TODO: "save" - serialize model back out to pretty-printed json
-TODO: add children, remove children
-TODO: shift click to expand children
-TODO: middle click drag to manipulate heirarchy
-TODO: find
+* implement raw json edit field with syntax checking.
+* output poses support.
+* implement support for stateMachine, randomStateMachine, inverseKinematics, twoBoneIK, splineIK and poleVectorConstraint nodes.
+* "save" - serialize model back out to pretty-printed json
+* add children, remove children
+* shift click to expand children
+* middle click drag to manipulate heirarchy
+* find
 
