@@ -94,6 +94,12 @@ ApplicationWindow {
                     createCustomData("nodes/BlendLinearMove.qml", index);
                 } else if (typeValue === "overlay") {
                     createCustomData("nodes/Overlay.qml", index);
+                } else if (typeValue === "stateMachine") {
+                    createCustomData("nodes/StateMachine.qml", index);
+                } else if (typeValue === "randomSwitchStateMachine") {
+                    createCustomData("nodes/RandomStateMachine.qml", index);
+                } else if (typeValue === "inverseKinematics") {
+                    createCustomData("nodes/InverseKinematics.qml", index);
                 }
             }
 

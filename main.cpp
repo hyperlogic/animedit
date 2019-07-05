@@ -1,8 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include <QDebug>
-#include <QFile>
 
 #include "treemodel.h"
 
@@ -15,10 +13,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     // expose model
-    QFile file(":/default.txt");
-    file.open(QIODevice::ReadOnly);
     TreeModel model;
-
     engine.rootContext()->setContextProperty("theModel", &model);
 
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));

@@ -8,10 +8,10 @@ TODO: rightHandPane editors for the following node types:
 * DONE: blendLinear
 * DONE: blendLinearMove - (float[] field)
 * DONE: overlay
-* stateMachine - (raw json blob edit field) for states and transitions.
-* randomStateMachine - (raw json blob edit field) for states
+* DONE: stateMachine - (raw json blob edit field) for states and transitions.
+* DONE: randomStateMachine - (raw json blob edit field) for states
 * manipulator - (list of joints)
-* inverseKinematics - (raw json blob edit field)
+* DONE: inverseKinematics - (raw json blob edit field)
 * DONE: defaultPose
 * twoBoneIK - (vec3 field)
 * splineIK - (float[] field)
