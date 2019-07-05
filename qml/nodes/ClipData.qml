@@ -3,6 +3,7 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 1.6
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.0
+import "../fields"
 
 Column {
     id: column
@@ -32,7 +33,8 @@ Column {
         var ROLE_DATA = 0x0103;
         var dataValue = theModel.data(modelIndex, ROLE_DATA);
 
-        var fields = ["alpha", "desiredSpeed", "characteristicSpeeds", "alphaVar", "desiredSpeedVar"];
+        var fields = ["url", "startFrame", "endFrame", "timeScale", "loopFlag", "mirrorFlag",
+                      "startFrameVar", "endFrameVar", "timeScaleVar", "loopFlagVar", "mirrorFlagVar"];
 
         // copy data from theModel into each field.
         var l = fields.length;
@@ -49,34 +51,74 @@ Column {
         column.fieldChanged.connect(fieldChangedMethod)
     }
 
+    StringField {
+        id: urlField
+        key: "url"
+        value: "qrc:///avatar/animations/idle.fbx"
+    }
+
     NumberField {
-        id: alphaField
-        key: "alpha"
+        id: startFrameField
+        key: "startFrame"
         value: 0.0
     }
 
     NumberField {
-        id: desiredSpeedField
-        key: "desiredSpeed"
+        id: endFrameField
+        key: "endFrame"
         value: 0.0
     }
 
-    NumberArrayField {
-        id: characteristicSpeedsField
-        key: "characteristicSpeeds"
-        value: []
+    NumberField {
+        id: timeScaleField
+        key: "timeScale"
+        value: 0.0
+    }
+
+    BooleanField {
+        id: loopFlagField
+        key: "loopFlag"
+        value: false
+    }
+
+    BooleanField {
+        id: mirrorFlagField
+        key: "mirrorFlag"
+        value: false
+        optional: true
     }
 
     StringField {
-        id: alphaVarField
-        key: "alphaVar"
+        id: startFrameVarField
+        key: "startFrameVar"
         value: ""
         optional: true
     }
 
     StringField {
-        id: desiredSpeedVarField
-        key: "desiredSpeedVar"
+        id: endFrameVarField
+        key: "endFrameVar"
+        value: ""
+        optional: true
+    }
+
+    StringField {
+        id: timeScaleVarField
+        key: "timeScaleVar"
+        value: ""
+        optional: true
+    }
+
+    StringField {
+        id: loopFlagVarField
+        key: "loopFlagVar"
+        value: ""
+        optional: true
+    }
+
+    StringField {
+        id: mirrorFlagVarField
+        key: "mirrorFlagVar"
         value: ""
         optional: true
     }

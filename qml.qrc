@@ -1,16 +1,16 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>TreeDelegate.qml</file>
-        <file>IdField.qml</file>
-        <file>TypeField.qml</file>
-        <file>ClipData.qml</file>
-        <file>NumberField.qml</file>
-        <file>StringField.qml</file>
-        <file>BooleanField.qml</file>
-        <file>BlendLinear.qml</file>
-        <file>BlendLinearMove.qml</file>
-        <file>NumberArrayField.qml</file>
-        <file>Overlay.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/TreeDelegate.qml</file>
+        <file>qml/fields/BooleanField.qml</file>
+        <file>qml/fields/IdField.qml</file>
+        <file>qml/fields/NumberArrayField.qml</file>
+        <file>qml/fields/NumberField.qml</file>
+        <file>qml/fields/StringField.qml</file>
+        <file>qml/fields/TypeField.qml</file>
+        <file>qml/nodes/BlendLinear.qml</file>
+        <file>qml/nodes/BlendLinearMove.qml</file>
+        <file>qml/nodes/ClipData.qml</file>
+        <file>qml/nodes/Overlay.qml</file>
     </qresource>
 </RCC>

@@ -3,6 +3,8 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 1.6
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.0
+import "fields"
+import "nodes"
 
 ApplicationWindow {
     id: root
@@ -85,13 +87,13 @@ ApplicationWindow {
                 }
 
                 if (typeValue === "clip") {
-                    createCustomData("ClipData.qml", index);
+                    createCustomData("nodes/ClipData.qml", index);
                 } else if (typeValue === "blendLinear") {
-                    createCustomData("BlendLinear.qml", index);
+                    createCustomData("nodes/BlendLinear.qml", index);
                 } else if (typeValue === "blendLinearMove") {
-                    createCustomData("BlendLinearMove.qml", index);
+                    createCustomData("nodes/BlendLinearMove.qml", index);
                 } else if (typeValue === "overlay") {
-                    createCustomData("Overlay.qml", index);
+                    createCustomData("nodes/Overlay.qml", index);
                 }
             }
 

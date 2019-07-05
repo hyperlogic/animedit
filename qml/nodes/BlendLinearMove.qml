@@ -3,6 +3,7 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 1.6
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.0
+import "../fields"
 
 Column {
     id: column
@@ -32,7 +33,7 @@ Column {
         var ROLE_DATA = 0x0103;
         var dataValue = theModel.data(modelIndex, ROLE_DATA);
 
-        var fields = ["alpha", "alphaVar"];
+        var fields = ["alpha", "desiredSpeed", "characteristicSpeeds", "alphaVar", "desiredSpeedVar"];
 
         // copy data from theModel into each field.
         var l = fields.length;
@@ -55,9 +56,28 @@ Column {
         value: 0.0
     }
 
+    NumberField {
+        id: desiredSpeedField
+        key: "desiredSpeed"
+        value: 0.0
+    }
+
+    NumberArrayField {
+        id: characteristicSpeedsField
+        key: "characteristicSpeeds"
+        value: []
+    }
+
     StringField {
         id: alphaVarField
         key: "alphaVar"
+        value: ""
+        optional: true
+    }
+
+    StringField {
+        id: desiredSpeedVarField
+        key: "desiredSpeedVar"
         value: ""
         optional: true
     }
