@@ -100,6 +100,16 @@ ApplicationWindow {
                     createCustomData("nodes/RandomStateMachine.qml", index);
                 } else if (typeValue === "inverseKinematics") {
                     createCustomData("nodes/InverseKinematics.qml", index);
+                } else if (typeValue === "twoBoneIK") {
+                    createCustomData("nodes/TwoBoneIK.qml", index);
+                } else if (typeValue === "defaultPose") {
+                    createCustomData("nodes/DefaultPose.qml", index);
+                } else if (typeValue === "manipulator") {
+                    createCustomData("nodes/Manipulator.qml", index);
+                } else if (typeValue === "splineIK") {
+                    createCustomData("nodes/SplineIK.qml", index);
+                } else if (typeValue === "poleVectorConstraint") {
+                    createCustomData("nodes/PoleVector.qml", index);
                 }
             }
 

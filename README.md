@@ -3,21 +3,7 @@ animedit
 
 WIP animation.json editor for High Fidelity.
 
-TODO: rightHandPane editors for the following node types:
-* DONE: clip
-* DONE: blendLinear
-* DONE: blendLinearMove - (float[] field)
-* DONE: overlay
-* DONE: stateMachine - (raw json blob edit field) for states and transitions.
-* DONE: randomStateMachine - (raw json blob edit field) for states
-* manipulator - (list of joints)
-* DONE: inverseKinematics - (raw json blob edit field)
-* DONE: defaultPose
-* twoBoneIK - (vec3 field)
-* splineIK - (float[] field)
-* poleVectorConstraint - (float[] field)
-
-* implement raw json edit field with syntax checking.
+* add syntax checking to JSON editing field.
 * output poses support.
 * implement support for stateMachine, randomStateMachine, inverseKinematics, twoBoneIK, splineIK and poleVectorConstraint nodes.
 * "save" - serialize model back out to pretty-printed json
