@@ -202,6 +202,33 @@ void TreeModel::saveToFile(const QString& filename) {
     }
 }
 
+void TreeModel::newNode(const QModelIndex& parent) {
+
+    beginResetModel();
+
+    TreeItem* parentItem = static_cast<TreeItem*>(parent.internalPointer());
+
+    QList<QVariant> columnData;
+    columnData << "newNode";
+    columnData << "clip";
+
+    QJsonObject data;
+    data.insert("url", "qrc:///avatar/animations/idle.fbx");
+    data.insert("startFrame", 1.0f);
+    data.insert("endFrame", 300.0f);
+    data.insert("timeScale", 1.0f);
+    data.insert("loopFlag", true);
+
+    columnData << data;
+
+    // create node
+    TreeItem* childItem = new TreeItem(columnData);
+
+    parentItem->appendChild(childItem);
+
+    endResetModel();
+}
+
 TreeItem* TreeModel::loadNode(const QJsonObject& jsonObj) {
 
     // id
@@ -226,7 +253,6 @@ TreeItem* TreeModel::loadNode(const QJsonObject& jsonObj) {
         qCritical() << "AnimNodeLoader, bad string \"data\", id =" << id;
         return nullptr;
     }
-    auto dataObj = dataValue.toObject();
 
     QList<QVariant> columnData;
     columnData << id;

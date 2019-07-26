@@ -57,6 +57,7 @@ public:
     // invokable from qml
     Q_INVOKABLE void loadFromFile(const QString& filename);
     Q_INVOKABLE void saveToFile(const QString& filename);
+    Q_INVOKABLE void newNode(const QModelIndex& parent);
 
 private:
     TreeItem* loadNode(const QJsonObject& jsonObj);

@@ -151,6 +151,15 @@ ApplicationWindow {
                 onTriggered: saveAsFileDialog.open()
             }
         }
+        Menu {
+            title: "Edit"
+            MenuItem {
+                text: "New Node"
+                onTriggered: {
+                    theModel.newNode(leftHandPane.currentIndex);
+                }
+            }
+        }
     }
 
     FileDialog {
