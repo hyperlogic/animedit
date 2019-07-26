@@ -211,15 +211,7 @@ void TreeModel::newNode(const QModelIndex& parent) {
     QList<QVariant> columnData;
     columnData << "newNode";
     columnData << "clip";
-
-    QJsonObject data;
-    data.insert("url", "qrc:///avatar/animations/idle.fbx");
-    data.insert("startFrame", 1.0f);
-    data.insert("endFrame", 300.0f);
-    data.insert("timeScale", 1.0f);
-    data.insert("loopFlag", true);
-
-    columnData << data;
+    columnData << QJsonObject();  // blank
 
     // create node
     TreeItem* childItem = new TreeItem(columnData);

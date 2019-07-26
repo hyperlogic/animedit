@@ -39,6 +39,12 @@ Row {
     property string theValue: "clip"
     property int theIndex: indexFromString(theValue)
 
+    function setValue(newValue) {
+        var ROLE_TYPE = 0x0102;
+        theModel.setData(leftHandPane.currentIndex, newValue, ROLE_TYPE);
+        rightHandPane.reset();
+    }
+
     Text {
         id: element
         y: 5
@@ -53,5 +59,8 @@ Row {
         width: 200
         model: getTypes()
         currentIndex: theIndex
+        onActivated: {
+            setValue(currentText);
+        }
     }
 }

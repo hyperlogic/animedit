@@ -69,6 +69,10 @@ ApplicationWindow {
                 }
             }
 
+            function reset() {
+                setIndex(leftHandPane.currentIndex);
+            }
+
             function setIndex(index) {
                 var ROLE_NAME = 0x0101;
                 var ROLE_TYPE = 0x0102;
@@ -154,7 +158,7 @@ ApplicationWindow {
         Menu {
             title: "Edit"
             MenuItem {
-                text: "New Node"
+                text: "Add Child To Selected"
                 onTriggered: {
                     theModel.newNode(leftHandPane.currentIndex);
                 }

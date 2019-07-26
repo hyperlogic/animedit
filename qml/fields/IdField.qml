@@ -16,6 +16,11 @@ Row {
 
     property string theValue
 
+    function setValue(newValue) {
+        var ROLE_NAME = 0x0101;
+        theModel.setData(leftHandPane.currentIndex, newValue, ROLE_NAME);
+    }
+
     Text {
         id: element
         y: 5
@@ -29,5 +34,8 @@ Row {
         x: 100
         width: 200
         text: theValue
+        onEditingFinished: {
+            setValue(text);
+        }
     }
 }
