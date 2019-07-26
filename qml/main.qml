@@ -144,19 +144,22 @@ ApplicationWindow {
             title: "File"
             MenuItem {
                 text: "Open..."
-                onTriggered: fileDialog.open()
+                onTriggered: openFileDialog.open()
             }
-            MenuItem { text: "Save" }
+            MenuItem {
+                text: "Save As..."
+                onTriggered: saveAsFileDialog.open()
+            }
         }
     }
 
     FileDialog {
-        id: fileDialog
+        id: openFileDialog
         title: "Open an animation json file"
         folder: shortcuts.home
         nameFilters: ["Json files (*.json)"]
         onAccepted: {
-            var path = fileDialog.fileUrl.toString();
+            var path = openFileDialog.fileUrl.toString();
             // remove prefixed "file:///"
             path = path.replace(/^(file:\/{3})/,"");
             // unescape html codes like '%23' for '#'
@@ -168,33 +171,24 @@ ApplicationWindow {
             console.log("Canceled");
         }
     }
+
+    FileDialog {
+        id: saveAsFileDialog
+        title: "Save an animation json file"
+        folder: shortcuts.home
+        nameFilters: ["Json files (*.json)"]
+        selectExisting: false
+        onAccepted: {
+            var path = saveAsFileDialog.fileUrl.toString();
+            // remove prefixed "file:///"
+            path = path.replace(/^(file:\/{3})/,"");
+            // unescape html codes like '%23' for '#'
+            var cleanPath = decodeURIComponent(path);
+            console.log("You chose: " + cleanPath);
+            theModel.saveToFile(cleanPath);
+        }
+        onRejected: {
+            console.log("Canceled");
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*##^## Designer {
-    D{i:2;anchors_width:300}D{i:7;anchors_height:1000;anchors_width:1000}D{i:6;anchors_width:50;anchors_x:0}
-}
- ##^##*/

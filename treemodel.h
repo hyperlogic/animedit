@@ -54,12 +54,14 @@ public:
     bool insertRows(int position, int rows, const QModelIndex& parent = QModelIndex()) override;
     bool removeRows(int position, int rows, const QModelIndex& parent = QModelIndex()) override;
 
-    // invokalbe from qml
+    // invokable from qml
     Q_INVOKABLE void loadFromFile(const QString& filename);
+    Q_INVOKABLE void saveToFile(const QString& filename);
 
 private:
     TreeItem* loadNode(const QJsonObject& jsonObj);
     TreeItem* getItem(const QModelIndex& index) const;
+    QJsonObject jsonFromItem(TreeItem* treeItem);
 
     TreeItem* _rootItem;
     QHash<int, QByteArray> _roleNameMapping;

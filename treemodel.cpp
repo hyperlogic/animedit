@@ -129,7 +129,7 @@ bool TreeModel::removeRows(int position, int rows, const QModelIndex& parent) {
     return false;
 }
 
-Q_INVOKABLE void TreeModel::loadFromFile(const QString& filename) {
+void TreeModel::loadFromFile(const QString& filename) {
 
     beginResetModel();
 
@@ -183,6 +183,25 @@ Q_INVOKABLE void TreeModel::loadFromFile(const QString& filename) {
     endResetModel();
 }
 
+void TreeModel::saveToFile(const QString& filename) {
+
+    QJsonObject obj;
+    obj.insert("version", "1.1");
+
+    const int FIRST_CHILD = 0;
+    obj.insert("root", jsonFromItem(_rootItem->child(FIRST_CHILD)));
+
+    QJsonDocument doc(obj);
+    QByteArray byteArray = doc.toJson(QJsonDocument::Indented);
+
+    QFile file(filename);
+    if (!file.open(QIODevice::WriteOnly)) {
+        qCritical() << "TreeModel::safeToFile, failed to open file" << filename;
+    } else {
+        file.write(byteArray);
+    }
+}
+
 TreeItem* TreeModel::loadNode(const QJsonObject& jsonObj) {
 
     // id
@@ -208,16 +227,6 @@ TreeItem* TreeModel::loadNode(const QJsonObject& jsonObj) {
         return nullptr;
     }
     auto dataObj = dataValue.toObject();
-
-    // output joints
-    std::vector<QString> outputJoints;
-    auto outputJoints_VAL = dataObj.value("outputJoints");
-    if (outputJoints_VAL.isArray()) {
-        QJsonArray outputJoints_ARRAY = outputJoints_VAL.toArray();
-        for (int i = 0; i < outputJoints_ARRAY.size(); i++) {
-            outputJoints.push_back(outputJoints_ARRAY.at(i).toString());
-        }
-    }
 
     QList<QVariant> columnData;
     columnData << id;
@@ -258,4 +267,25 @@ TreeItem* TreeModel::getItem(const QModelIndex& index) const {
         }
     }
     return _rootItem;
+}
+
+QJsonObject TreeModel::jsonFromItem(TreeItem* treeItem) {
+    QJsonObject obj;
+
+    const int ID_COLUMN = 0;
+    obj.insert("id", treeItem->data(ID_COLUMN).toJsonValue());
+
+    const int TYPE_COLUMN = 1;
+    obj.insert("type", treeItem->data(TYPE_COLUMN).toJsonValue());
+
+    const int DATA_COLUMN = 2;
+    obj.insert("data", treeItem->data(DATA_COLUMN).toJsonValue());
+
+    QJsonArray children;
+    for (int i = 0; i < treeItem->childCount(); i++) {
+        children.push_back(jsonFromItem(treeItem->child(i)));
+    }
+    obj.insert("children", children);
+
+    return obj;
 }
