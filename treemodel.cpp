@@ -17,6 +17,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QStringList>
+#include <QJSValue>
 
 #include "treemodel.h"
 
@@ -297,7 +298,12 @@ QJsonObject TreeModel::jsonFromItem(TreeItem* treeItem) {
     obj.insert("type", treeItem->data(TYPE_COLUMN).toJsonValue());
 
     const int DATA_COLUMN = 2;
-    obj.insert("data", treeItem->data(DATA_COLUMN).toJsonValue());
+    QVariant data = treeItem->data(DATA_COLUMN);
+    if (data.canConvert<QJSValue>()) {
+        obj.insert("data", data.value<QJSValue>().toVariant().toJsonValue());
+    } else {
+        obj.insert("data", data.toJsonValue());
+    }
 
     QJsonArray children;
     for (int i = 0; i < treeItem->childCount(); i++) {

@@ -18,6 +18,7 @@ Column {
 
     // called by each field when its value is changed.
     function fieldChangedMethod(key, newValue) {
+
         var ROLE_DATA = 0x0103;
         var dataValue = theModel.data(modelIndex, ROLE_DATA);
         dataValue[key] = newValue;
@@ -33,7 +34,7 @@ Column {
         var ROLE_DATA = 0x0103;
         var dataValue = theModel.data(modelIndex, ROLE_DATA);
 
-        var fields = ["currentState", "triggerRandomSwitch", "randomSwitchTimeMinField", "randomSwitchTimeMax", "states"];
+        var fields = ["currentState", "triggerRandomSwitch", "randomSwitchTimeMin", "randomSwitchTimeMax", "states"];
 
         // copy data from theModel into each field.
         var l = fields.length;
