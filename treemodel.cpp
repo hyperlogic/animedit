@@ -107,7 +107,12 @@ int TreeModel::columnCount(const QModelIndex& parent) const {
 
 bool TreeModel::setData(const QModelIndex& index, const QVariant& value, int role) {
     TreeItem* item = getItem(index);
-    return item->setData(role - Qt::UserRole - 1, value);
+
+    bool returnValue = item->setData(role - Qt::UserRole - 1, value);
+
+    emit dataChanged(index, index);
+
+    return returnValue;
 }
 
 bool TreeModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant& value, int role) {
@@ -205,9 +210,9 @@ void TreeModel::saveToFile(const QString& filename) {
 
 void TreeModel::newNode(const QModelIndex& parent) {
 
-    beginResetModel();
-
     TreeItem* parentItem = static_cast<TreeItem*>(parent.internalPointer());
+
+    beginInsertRows(parent, parentItem->childCount(), parentItem->childCount());
 
     QList<QVariant> columnData;
     columnData << "newNode";
@@ -219,7 +224,7 @@ void TreeModel::newNode(const QModelIndex& parent) {
 
     parentItem->appendChild(childItem);
 
-    endResetModel();
+    endInsertRows();
 }
 
 TreeItem* TreeModel::loadNode(const QJsonObject& jsonObj) {
