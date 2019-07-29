@@ -39,7 +39,7 @@ Row {
         text: value
         onEditingFinished: {
             value = text;
-            setValue(text);
+            setValue(parseInt(text, 10));
         }
     }
 }
