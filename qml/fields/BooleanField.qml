@@ -36,9 +36,8 @@ Row {
         x: 100
         y: 5
         width: 200
-        checked: value
-        onClicked: {
-            value = checked;
+        checked: value ? Qt.Checked : Qt.Unchecked
+        onCheckedChanged: {
             setValue(checked);
         }
     }
