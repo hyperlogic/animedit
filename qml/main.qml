@@ -9,8 +9,8 @@ import "nodes"
 ApplicationWindow {
     id: root
     visible: true
-    width: 1024
-    height: 480
+    width: 1600
+    height: 1000
     color: "#ffffff"
     opacity: 1
     title: qsTr("AnimEdit")
@@ -22,7 +22,7 @@ ApplicationWindow {
 
         TreeView {
             id: leftHandPane
-            width: 700
+            width: 1000
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.top: parent.top
