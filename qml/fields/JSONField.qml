@@ -7,7 +7,6 @@ import QtQuick.Dialogs 1.0
 
 Column {
     id: row
-    height: 20
     width: 300
     anchors.left: parent.left
     anchors.leftMargin: 0

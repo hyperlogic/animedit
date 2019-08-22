@@ -227,6 +227,17 @@ void TreeModel::newNode(const QModelIndex& parent) {
     endInsertRows();
 }
 
+QVariantList TreeModel::getChildrenModelIndices(const QModelIndex& index) {
+    QVariantList indices;
+
+    TreeItem* parent = static_cast<TreeItem*>(index.internalPointer());
+    for (int i = 0; i < parent->childCount(); ++i) {
+        TreeItem* child = parent->child(i);
+        indices.push_back(createIndex(i, 0, reinterpret_cast<quintptr>(child)));
+    }
+    return indices;
+}
+
 TreeItem* TreeModel::loadNode(const QJsonObject& jsonObj) {
 
     // id
