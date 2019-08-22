@@ -43,6 +43,26 @@ ApplicationWindow {
             onClicked: {
                 rightHandPane.setIndex(index);
             }
+
+            Component.onCompleted: {
+                theModel.dataChanged.connect(dataChangedMethod);
+                theModel.modelReset.connect(dataChangedMethod);
+            }
+
+
+            function dataChangedMethod() {
+                function expandAll(index) {
+                    leftHandPane.expand(index);
+                    var children = theModel.getChildrenModelIndices(index);
+                    for (var i = 0; i < children.length; i++) {
+                        leftHandPane.expand(children[i]);
+                        expandAll(children[i]);
+                    }
+                }
+
+                var index = theModel.index(0, 0);
+                expandAll(index);
+            }
         }
 
         Rectangle {

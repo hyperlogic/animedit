@@ -34,7 +34,8 @@ Column {
         var ROLE_DATA = 0x0103;
         var dataValue = theModel.data(modelIndex, ROLE_DATA);
 
-        var fields = ["currentState", "triggerRandomSwitch", "randomSwitchTimeMin", "randomSwitchTimeMax", "states"];
+        var fields = ["currentState", "randomSwitchTimeMin", "randomSwitchTimeMax", "triggerRandomSwitch",
+                      "triggerTimeMin", "triggerTimeMax", "transitionVar", "states"];
 
         // copy data from theModel into each field.
         var l = fields.length;
@@ -57,22 +58,46 @@ Column {
         value: ""
     }
 
-    StringField {
-        id: triggerRandomSwitchField
-        key: "triggerRandomSwitch"
-        value: ""
-    }
-
     NumberField {
         id: randomSwitchTimeMinField
         key: "randomSwitchTimeMin"
         value: 1.0
+        optional: true
     }
 
     NumberField {
         id: randomSwitchTimeMaxField
         key: "randomSwitchTimeMax"
         value: 10.0
+        optional: true
+    }
+
+    StringField {
+        id: triggerRandomSwitchField
+        key: "triggerRandomSwitch"
+        value: ""
+        optional: true
+    }
+
+    NumberField {
+        id: triggerTimeMinField
+        key: "triggerTimeMin"
+        value: 1.0
+        optional: true
+    }
+
+    NumberField {
+        id: triggerTimeMaxField
+        key: "triggerTimeMax"
+        value: 10.0
+        optional: true
+    }
+
+    StringField {
+        id: transitionVarField
+        key: "transitionVar"
+        value: ""
+        optional: true
     }
 
     JSONField {
