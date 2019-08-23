@@ -35,8 +35,8 @@ Column {
     TextArea {
         id: valueTextField
         x: 0
-        width: 300
-        height: 250
+        width: 800
+        height: 1000
         wrapMode: TextEdit.NoWrap
 
         // TODO: validate
