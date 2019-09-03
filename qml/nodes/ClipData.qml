@@ -34,7 +34,8 @@ Column {
         var dataValue = theModel.data(modelIndex, ROLE_DATA);
 
         var fields = ["url", "startFrame", "endFrame", "timeScale", "loopFlag", "mirrorFlag",
-                      "startFrameVar", "endFrameVar", "timeScaleVar", "loopFlagVar", "mirrorFlagVar"];
+                      "blendType", "baseURL", "baseFrame", "startFrameVar", "endFrameVar",
+                      "timeScaleVar", "loopFlagVar", "mirrorFlagVar"];
 
         // copy data from theModel into each field.
         var l = fields.length;
@@ -85,6 +86,27 @@ Column {
         id: mirrorFlagField
         key: "mirrorFlag"
         value: false
+        optional: true
+    }
+
+    StringField {
+        id: blendTypeField
+        key: "blendType"
+        value: ""
+        optional: true
+    }
+
+    StringField {
+        id: baseURLField
+        key: "baseURL"
+        value: ""
+        optional: true
+    }
+
+    NumberField {
+        id: baseFrameField
+        key: "baseFrame"
+        value: 0.0
         optional: true
     }
 

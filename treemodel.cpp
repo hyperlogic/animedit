@@ -210,7 +210,10 @@ void TreeModel::saveToFile(const QString& filename) {
 
 void TreeModel::newNode(const QModelIndex& parent) {
 
-    TreeItem* parentItem = static_cast<TreeItem*>(parent.internalPointer());
+    TreeItem* parentItem = _rootItem;
+    if (parent.isValid()) {
+        parentItem = static_cast<TreeItem*>(parent.internalPointer());
+    }
 
     beginInsertRows(parent, parentItem->childCount(), parentItem->childCount());
 
@@ -225,6 +228,20 @@ void TreeModel::newNode(const QModelIndex& parent) {
     parentItem->appendChild(childItem);
 
     endInsertRows();
+}
+
+void TreeModel::deleteNode(const QModelIndex& index) {
+    TreeItem* item = static_cast<TreeItem*>(index.internalPointer());
+    TreeItem* parentItem = item->parentItem();
+    int childNum = parentItem->findChild(item);
+
+    if (childNum >= 0) {
+        //beginRemoveRows(index, childNum, childNum);
+        beginResetModel();
+        parentItem->removeChild(childNum);
+        //endRemoveRows();
+        endResetModel();
+    }
 }
 
 QVariantList TreeModel::getChildrenModelIndices(const QModelIndex& index) {

@@ -183,6 +183,12 @@ ApplicationWindow {
                     theModel.newNode(leftHandPane.currentIndex);
                 }
             }
+            MenuItem {
+                text: "Delete Selected"
+                onTriggered: {
+                    theModel.delteNode(leftHandPane.currentIndex);
+                }
+            }
         }
     }
 

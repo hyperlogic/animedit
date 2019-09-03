@@ -21,6 +21,8 @@ public:
     ~TreeItem();
 
     void appendChild(TreeItem* child);
+    int findChild(TreeItem* child);
+    void removeChild(int index);
 
     TreeItem* child(int row);
     int childCount() const;

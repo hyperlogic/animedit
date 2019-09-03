@@ -58,6 +58,7 @@ public:
     Q_INVOKABLE void loadFromFile(const QString& filename);
     Q_INVOKABLE void saveToFile(const QString& filename);
     Q_INVOKABLE void newNode(const QModelIndex& parent);
+    Q_INVOKABLE void deleteNode(const QModelIndex& index);
     Q_INVOKABLE QVariantList getChildrenModelIndices(const QModelIndex& index);
 
 private:

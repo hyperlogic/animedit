@@ -26,6 +26,19 @@ void TreeItem::appendChild(TreeItem *item) {
     m_childItems.append(item);
 }
 
+int TreeItem::findChild(TreeItem* child) {
+    for (int i = 0; i < m_childItems.size(); i++) {
+        if (m_childItems[i] == child) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void TreeItem::removeChild(int index) {
+    m_childItems.removeAt(index);
+}
+
 TreeItem* TreeItem::child(int row) {
     return m_childItems.value(row);
 }
