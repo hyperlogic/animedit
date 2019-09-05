@@ -9,6 +9,7 @@
         <file>qml/fields/NumberField.qml</file>
         <file>qml/fields/StringField.qml</file>
         <file>qml/fields/TypeField.qml</file>
+        <file>qml/nodes/BlendDirectional.qml</file>
         <file>qml/nodes/BlendLinear.qml</file>
         <file>qml/nodes/BlendLinearMove.qml</file>
         <file>qml/nodes/ClipData.qml</file>

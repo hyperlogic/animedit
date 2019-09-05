@@ -10,6 +10,7 @@ Row {
     function getTypes() {
         return [
             "clip",
+            "blendDirectional",
             "blendLinear",
             "overlay",
             "stateMachine",

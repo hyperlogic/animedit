@@ -112,6 +112,8 @@ ApplicationWindow {
 
                 if (typeValue === "clip") {
                     createCustomData("nodes/ClipData.qml", index);
+                } else if (typeValue === "blendDirectional") {
+                    createCustomData("nodes/BlendDirectional.qml", index);
                 } else if (typeValue === "blendLinear") {
                     createCustomData("nodes/BlendLinear.qml", index);
                 } else if (typeValue === "blendLinearMove") {

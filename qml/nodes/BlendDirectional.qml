@@ -33,7 +33,7 @@ Column {
         var ROLE_DATA = 0x0103;
         var dataValue = theModel.data(modelIndex, ROLE_DATA);
 
-        var fields = ["alpha", "blendType", "alphaVar"];
+        var fields = ["alpha", "alphaVar", "centerId", "upId", "downId", "leftId", "rightId", "upLeftId", "upRightId", "downLeftId", "downRightId"];
 
         // copy data from theModel into each field.
         var l = fields.length;
@@ -50,22 +50,78 @@ Column {
         column.fieldChanged.connect(fieldChangedMethod)
     }
 
-    NumberField {
+    NumberArrayField {
         id: alphaField
         key: "alpha"
-        value: 0.0
-    }
-
-    StringField {
-        id: blendTypeField
-        key: "blendType"
-        value: ""
-        optional: true
+        value: [0, 0, 0]
     }
 
     StringField {
         id: alphaVarField
         key: "alphaVar"
+        value: ""
+        optional: true
+    }
+
+    StringField {
+        id: centerIdField
+        key: "centerId"
+        value: ""
+        optional: true
+    }
+
+    StringField {
+        id: upIdField
+        key: "upId"
+        value: ""
+        optional: true
+    }
+
+    StringField {
+        id: downIdField
+        key: "downId"
+        value: ""
+        optional: true
+    }
+
+    StringField {
+        id: leftIdField
+        key: "leftId"
+        value: ""
+        optional: true
+    }
+
+    StringField {
+        id: rightIdField
+        key: "rightId"
+        value: ""
+        optional: true
+    }
+
+    StringField {
+        id: upLeftIdField
+        key: "upLeftId"
+        value: ""
+        optional: true
+    }
+
+    StringField {
+        id: upRightIdField
+        key: "upRightId"
+        value: ""
+        optional: true
+    }
+
+    StringField {
+        id: downLeftIdField
+        key: "downLeftId"
+        value: ""
+        optional: true
+    }
+
+    StringField {
+        id: downRightIdField
+        key: "downRightId"
         value: ""
         optional: true
     }
