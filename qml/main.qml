@@ -44,13 +44,7 @@ ApplicationWindow {
                 rightHandPane.setIndex(index);
             }
 
-            Component.onCompleted: {
-                theModel.dataChanged.connect(dataChangedMethod);
-                theModel.modelReset.connect(dataChangedMethod);
-            }
-
-
-            function dataChangedMethod() {
+            function expandTreeView() {
                 function expandAll(index) {
                     leftHandPane.expand(index);
                     var children = theModel.getChildrenModelIndices(index);
@@ -207,6 +201,7 @@ ApplicationWindow {
             var cleanPath = decodeURIComponent(path);
             console.log("You chose: " + cleanPath);
             theModel.loadFromFile(cleanPath);
+            leftHandPane.expandTreeView();
         }
         onRejected: {
             console.log("Canceled");
