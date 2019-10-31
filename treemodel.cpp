@@ -21,6 +21,14 @@
 
 #include "treemodel.h"
 
+static TreeItem* newBlankTreeItem() {
+    QList<QVariant> columnData;
+    columnData << "newNode";
+    columnData << "clip";
+    columnData << QJsonObject();  // blank
+    return new TreeItem(columnData);
+}
+
 TreeModel::TreeModel(QObject* parent) : QAbstractItemModel(parent) {
     _roleNameMapping[TreeModelRoleName] = "name";
     _roleNameMapping[TreeModelRoleType] = "type";
@@ -216,15 +224,7 @@ void TreeModel::newNode(const QModelIndex& parent) {
     }
 
     beginInsertRows(parent, parentItem->childCount(), parentItem->childCount());
-
-    QList<QVariant> columnData;
-    columnData << "newNode";
-    columnData << "clip";
-    columnData << QJsonObject();  // blank
-
-    // create node
-    TreeItem* childItem = new TreeItem(columnData);
-
+    TreeItem* childItem = newBlankTreeItem();
     parentItem->appendChild(childItem);
 
     endInsertRows();
@@ -236,11 +236,33 @@ void TreeModel::deleteNode(const QModelIndex& index) {
     int childNum = parentItem->findChild(item);
 
     if (childNum >= 0) {
-        //beginRemoveRows(index, childNum, childNum);
-        beginResetModel();
+        beginRemoveRows(createIndex(0, 0, reinterpret_cast<quintptr>(parentItem)), childNum, childNum);
         parentItem->removeChild(childNum);
-        //endRemoveRows();
-        endResetModel();
+        endRemoveRows();
+    }
+}
+
+void TreeModel::insertNodeAbove(const QModelIndex& index) {
+    TreeItem* item = static_cast<TreeItem*>(index.internalPointer());
+    TreeItem* parentItem = item->parentItem();
+    int childNum = parentItem->findChild(item);
+
+    if (childNum >= 0) {
+        TreeItem* newItem = newBlankTreeItem();
+        QModelIndex parentIndex = createIndex(0, 0, reinterpret_cast<quintptr>(parentItem));
+
+        // remove item
+        beginRemoveRows(parentIndex, childNum, childNum);
+        parentItem->removeChild(childNum);
+        endRemoveRows();
+
+        // append item to newItem
+        newItem->appendChild(item);
+
+        // then insert newItem
+        beginInsertRows(parentIndex, childNum, childNum);
+        parentItem->insertChild(childNum, newItem);
+        endInsertRows();
     }
 }
 

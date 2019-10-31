@@ -23,6 +23,7 @@ public:
     void appendChild(TreeItem* child);
     int findChild(TreeItem* child);
     void removeChild(int index);
+    void insertChild(int index, TreeItem* child);
 
     TreeItem* child(int row);
     int childCount() const;

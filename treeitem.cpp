@@ -39,6 +39,11 @@ void TreeItem::removeChild(int index) {
     m_childItems.removeAt(index);
 }
 
+void TreeItem::insertChild(int index, TreeItem* child) {
+    child->m_parentItem = this;
+    m_childItems.insert(index, child);
+}
+
 TreeItem* TreeItem::child(int row) {
     return m_childItems.value(row);
 }
