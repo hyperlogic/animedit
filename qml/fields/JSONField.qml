@@ -7,7 +7,8 @@ import QtQuick.Dialogs 1.0
 
 Column {
     id: row
-    width: 300
+    width: parent.width
+    height: parent.height
     anchors.left: parent.left
     anchors.leftMargin: 0
     anchors.right: parent.right
@@ -26,7 +27,7 @@ Column {
     Text {
         id: keyText
         y: 5
-        width: 100
+        width: row.width
         text: key + ":"
         font.pixelSize: 12
         color: optional ? "blue" : "black"
@@ -35,8 +36,8 @@ Column {
     TextArea {
         id: valueTextField
         x: 0
-        width: 800
-        height: 1000
+        width: (keyText.width - 20)
+        height: (parent.height - 120)
         wrapMode: TextEdit.NoWrap
 
         // TODO: validate
