@@ -36,6 +36,7 @@ int TreeItem::findChild(TreeItem* child) {
 }
 
 void TreeItem::removeChild(int index) {
+    // TODO: delete TreeItem
     m_childItems.removeAt(index);
 }
 
@@ -77,3 +78,14 @@ int TreeItem::row() const {
     return 0;
 }
 
+TreeItem* TreeItem::cloneNode() const {
+    return new TreeItem(m_itemData);
+}
+
+TreeItem* TreeItem::cloneNodeAndChildren() const {
+    TreeItem* newNode = new TreeItem(m_itemData);
+    for (int i = 0; i < m_childItems.size(); ++i) {
+        newNode->appendChild(m_childItems[i]->cloneNodeAndChildren());
+    }
+    return newNode;
+}

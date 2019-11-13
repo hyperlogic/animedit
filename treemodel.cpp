@@ -37,6 +37,7 @@ TreeModel::TreeModel(QObject* parent) : QAbstractItemModel(parent) {
     QList<QVariant> rootData;
     rootData << "Name" << "Type" << "Data";
     _rootItem = new TreeItem(rootData);
+    _clipboard = nullptr;
 }
 
 TreeModel::~TreeModel() {
@@ -217,7 +218,6 @@ void TreeModel::saveToFile(const QString& filename) {
 }
 
 void TreeModel::newNode(const QModelIndex& parent) {
-
     TreeItem* parentItem = _rootItem;
     if (parent.isValid()) {
         parentItem = static_cast<TreeItem*>(parent.internalPointer());
@@ -275,6 +275,54 @@ QVariantList TreeModel::getChildrenModelIndices(const QModelIndex& index) {
         indices.push_back(createIndex(i, 0, reinterpret_cast<quintptr>(child)));
     }
     return indices;
+}
+
+void TreeModel::copyNode(const QModelIndex& index) {
+    TreeItem* item = static_cast<TreeItem*>(index.internalPointer());
+    // TODO: delete previous clipboard
+    _clipboard = item->cloneNode();
+}
+
+void TreeModel::copyNodeAndChildren(const QModelIndex& index) {
+    TreeItem* item = static_cast<TreeItem*>(index.internalPointer());
+    // TODO: delete previous clipboard
+    _clipboard = item->cloneNodeAndChildren();
+}
+
+void TreeModel::pasteOver(const QModelIndex& index) {
+    if (_clipboard) {
+        TreeItem* item = static_cast<TreeItem*>(index.internalPointer());
+        TreeItem* parentItem = item->parentItem();
+        int childNum = parentItem->findChild(item);
+
+        if (childNum >= 0) {
+            QModelIndex parentIndex = createIndex(0, 0, reinterpret_cast<quintptr>(parentItem));
+
+            // remove item
+            beginRemoveRows(parentIndex, childNum, childNum);
+            parentItem->removeChild(childNum);
+            endRemoveRows();
+
+            // then insert clone of _clipboard
+            beginInsertRows(parentIndex, childNum, childNum);
+            parentItem->insertChild(childNum, _clipboard->cloneNodeAndChildren());
+            endInsertRows();
+        }
+    }
+}
+
+void TreeModel::pasteAsChild(const QModelIndex& index) {
+    if (_clipboard) {
+        TreeItem* parentItem = _rootItem;
+        if (index.isValid()) {
+            parentItem = static_cast<TreeItem*>(index.internalPointer());
+        }
+
+        beginInsertRows(index, parentItem->childCount(), parentItem->childCount());
+        parentItem->appendChild(_clipboard->cloneNodeAndChildren());
+
+        endInsertRows();
+    }
 }
 
 TreeItem* TreeModel::loadNode(const QJsonObject& jsonObj) {

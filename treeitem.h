@@ -33,6 +33,9 @@ public:
     int row() const;
     TreeItem* parentItem();
 
+    TreeItem* cloneNode() const;
+    TreeItem* cloneNodeAndChildren() const;
+
 private:
     QList<TreeItem*> m_childItems;
     QList<QVariant> m_itemData;

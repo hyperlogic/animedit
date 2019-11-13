@@ -31,7 +31,7 @@ public:
         TreeModelRoleData
     };
 
-    explicit TreeModel(QObject* parent = 0);
+    explicit TreeModel(QObject* parent = nullptr);
     ~TreeModel() override;
 
     // QAbstractItemModel interface
@@ -61,6 +61,10 @@ public:
     Q_INVOKABLE void deleteNode(const QModelIndex& index);
     Q_INVOKABLE void insertNodeAbove(const QModelIndex& index);
     Q_INVOKABLE QVariantList getChildrenModelIndices(const QModelIndex& index);
+    Q_INVOKABLE void copyNode(const QModelIndex& index);
+    Q_INVOKABLE void copyNodeAndChildren(const QModelIndex& index);
+    Q_INVOKABLE void pasteOver(const QModelIndex& index);
+    Q_INVOKABLE void pasteAsChild(const QModelIndex& index);
 
 private:
     TreeItem* loadNode(const QJsonObject& jsonObj);
@@ -69,6 +73,7 @@ private:
 
     TreeItem* _rootItem;
     QHash<int, QByteArray> _roleNameMapping;
+    TreeItem* _clipboard;
 };
 
 #endif

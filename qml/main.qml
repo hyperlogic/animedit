@@ -174,7 +174,7 @@ ApplicationWindow {
         Menu {
             title: "Edit"
             MenuItem {
-                text: "Add Child To Selected"
+                text: "Add New Node as Child"
                 onTriggered: {
                     theModel.newNode(leftHandPane.currentIndex);
                 }
@@ -186,9 +186,33 @@ ApplicationWindow {
                 }
             }
             MenuItem {
-                text: "Insert Node Above"
+                text: "Insert New Node Above"
                 onTriggered: {
                     theModel.insertNodeAbove(leftHandPane.currentIndex);
+                }
+            }
+            MenuItem {
+                text: "Copy Node Only"
+                onTriggered: {
+                    theModel.copyNode(leftHandPane.currentIndex);
+                }
+            }
+            MenuItem {
+                text: "Copy Node And Children"
+                onTriggered: {
+                    theModel.copyNodeAndChildren(leftHandPane.currentIndex);
+                }
+            }
+            MenuItem {
+                text: "Paste Over"
+                onTriggered: {
+                    theModel.pasteOver(leftHandPane.currentIndex);
+                }
+            }
+            MenuItem {
+                text: "Paste As Child"
+                onTriggered: {
+                    theModel.pasteAsChild(leftHandPane.currentIndex);
                 }
             }
         }
