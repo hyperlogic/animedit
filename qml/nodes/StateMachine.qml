@@ -9,8 +9,8 @@ Column {
     id: column
     x: 0
     y: 0
-    height: 50
-    width: 200
+    height: parent.height
+    width: parent.width
     spacing: 6
     property var modelIndex
 

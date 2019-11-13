@@ -62,6 +62,8 @@ ApplicationWindow {
         Rectangle {
             id: rightHandPane
             color: "#adadad"
+            height: parent.height
+            width: 500
             anchors.left: leftHandPane.right
             anchors.leftMargin: 0
             anchors.right: parent.right
